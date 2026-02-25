@@ -29,7 +29,7 @@ class TestCourseLMSSync(unittest.TestCase):
 		frappe.db.commit()
 
 	def _skip_if_no_lms(self):
-		if not frappe.db.table_exists("tabLMS Course"):
+		if "lms" not in frappe.get_installed_apps():
 			self.skipTest("LMS app not installed")
 
 	def _make_topic(self, name):

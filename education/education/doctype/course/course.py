@@ -16,7 +16,7 @@ class Course(Document):
 	def on_update(self):
 		if frappe.flags.in_lms_sync:
 			return
-		if frappe.db.table_exists("tabLMS Course"):
+		if "lms" in frappe.get_installed_apps():
 			self.sync_to_lms()
 
 	def sync_to_lms(self):
@@ -38,6 +38,7 @@ class Course(Document):
 			if is_new:
 				lms_doc.insert(ignore_permissions=True)
 				frappe.db.set_value("Course", self.name, "lms_course", lms_doc.name, update_modified=False)
+				self.lms_course = lms_doc.name
 			else:
 				lms_doc.save(ignore_permissions=True)
 
@@ -73,6 +74,10 @@ class Course(Document):
 			}).insert(ignore_permissions=True)
 
 			existing_titles.add(topic_name)
+
+	def on_trash(self):
+		if self.lms_course and frappe.db.exists("LMS Course", self.lms_course):
+			frappe.db.set_value("LMS Course", self.lms_course, "education_course", None)
 
 	def validate_assessment_criteria(self):
 		if self.assessment_criteria:
