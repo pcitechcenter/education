@@ -18,7 +18,8 @@
   "assessment",
   "default_grading_scale",
   "assessment_criteria",
-  "connections_tab"
+  "connections_tab",
+  "lms_course"
  ],
  "fields": [
   {
@@ -88,6 +89,12 @@
    "fieldtype": "Tab Break",
    "label": "Connections",
    "show_dashboard": 1
+  },
+  {
+   "fieldname": "lms_course",
+   "fieldtype": "Link",
+   "label": "LMS Course",
+   "options": "LMS Course"
   }
  ],
  "image_field": "hero_image",
